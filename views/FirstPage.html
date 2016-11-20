@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+<script src="/javascripts/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+$("#details,#message,#response,#sent").hide();
+ 
+ $(".btn1").click(function(){
+ 
+ var num = Math.floor(100000 + Math.random() * 900000);
+ 
+ $("#text").val("Hi.Your OTP is:"+num+"");
+ $("#message").show();
+        $("#message").slideDown();
+    });
+	
+$(".btn2").click(function(){
+ 
+ $("#message").show();
+        $("#message").slideUp();
+    });
+});
+function openList(x){
+$("#l2").removeClass("active");
+$("#l1").addClass("active");
+$("#details,#message,#response,#sent").hide();
+$("#list").show();
+}
+
+</script>
+</head>
+<body ng-app="Code" ng-controller="CodeController">
+<header >
+<h1>KISSAN NETWORK</h1>
+</header>
+
+<ul>
+
+  <li id="l1" class="active"><a  href="#home" onclick="openList()">List Of Contacts</a></li>
+  <li id="l2"><a href="#" ng-click="sentMessages()">List Of Sent Messages</a></li>
+</ul>
+
+<div id="sent">
+<table>
+<tr>
+<th colspan="3"> Sent Messages</th>
+</tr>
+  <tr>
+    <th>Name</th>
+    <th>Time</th>
+	<th>OTP</th>
+  </tr>
+  <tr  ng-repeat="u in messages">
+  <td>{{u.Name}}</td>
+  <td>{{u.Time}}</td>
+  <td>{{u.OTP}}</td>
+  </tr>
+ 
+</table>
+
+</div>
+
+<div id="list">
+<table>
+<tr>
+<th colspan="2"> List of Contacts</th>
+</tr>
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+  </tr>
+  <tr  ng-repeat="u in users" ng-class="{'selected':$index == selectedRow}" ng-click="setClickedRow($index,u)">
+  <td>{{u.firstName}}</td>
+  <td>{{u.lastName}}</td>
+  </tr>
+ 
+</table>
+
+</div>
+<div id="details">
+<h1 id="response" style="color:red;"> Message Sent Succesfully </h1>
+<h1>Name : <span id="name">{{d.firstName + d.lastName}} </span></h1> </br>
+<h1 >Contact Number :<span id="mobile">{{d.mobile}}</span></h1>
+<div id="message">
+<h1 class="dis">Message :</h1>&nbsp;
+<textarea id="text" rows="3" cols="50"></textarea>
+<button onclick="sendMessage()" >Send</button>
+<button class="btn2">Cancel</button>
+
+</div>
+<button  class="btn1">Send Message</button>
+<button ng-click="goBack()" >Back</button>
+
+</div>
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+<script src="/javascripts/application.js"></script>
+</body>
+</html>
+
