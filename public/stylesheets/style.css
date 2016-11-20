@@ -10,7 +10,7 @@ ul {
     padding: 0;
     width: 25%;
     background-color: #B0C4DE;
-    position:fixed;
+    position:absolute;
     height: 100%;
   
 }
