@@ -41,43 +41,61 @@ req.write(data);
 req.end();
 
 var responseData = '';
-req.on('response', function(res){
- res.on('data', function(chunk){
+req.on('response', function(res1){
+ res1.on('data', function(chunk){
    responseData += chunk;
+   var x = JSON.parse(chunk);
    console.log(chunk);
+   console.log(x.messages[0].status);
+   var y = x.messages[0].status;
+   if(y == 0)
+   {
+		var currdatetime = new Date();
+		console.log(currdatetime);
+		var otp = bo.substring(15,21);
+		console.log(otp);
+		var jsonfile = require('jsonfile')
+		 
+		var file = './public/JSON/SentMessages.json';
+
+		var obj = {"Name":name,"Time":currdatetime,"OTP":otp};
+
+		var out =[];
+		var fs = require('fs');
+		var obj1 = JSON.parse(fs.readFileSync(file, 'utf8'));
+		console.log(obj1);
+		obj1.push(obj);	
+		console.log("after");
+		console.log(obj1);
+
+		jsonfile.writeFile(file, obj1, function (err,doc) {
+		if(err)
+		  console.error(err);
+		  else{
+		  console.log("doce");
+		  res.send({msg:'Message Sent Successfully'});
+		  }
+		});
+		
+   }
+   
+   else if(y == 29)
+   {
+		res.send({msg:'Message Failed!! Mobile Number not registered with NEXMO'});
+   }
+   
+   else
+   {	
+		res.send({msg:'Error'+y+' has occured'});
+   }
  });
 
- res.on('end', function(){
+ res1.on('end', function(){
    console.log(JSON.parse(responseData));
   // return res.send({msg : 'done'});
  });
 });
-var currdatetime = new Date();
-console.log(currdatetime);
-var otp = bo.substring(15,21);
-console.log(otp);
-var jsonfile = require('jsonfile')
- 
-var file = './public/JSON/SentMessages.json';
 
-var obj = {"Name":name,"Time":currdatetime,"OTP":otp};
-
-var out =[];
-var fs = require('fs');
-var obj1 = JSON.parse(fs.readFileSync(file, 'utf8'));
-console.log(obj1);
-obj1.push(obj);	
-console.log("after");
-console.log(obj1);
-
-jsonfile.writeFile(file, obj1, function (err,doc) {
-if(err)
-  console.error(err);
-  else{
-  console.log("doce");
-  res.send({msg:'done'});
-  }
-})
   
   
 });

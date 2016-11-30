@@ -60,6 +60,8 @@ function sendMessage()
 	}).done(function(result){
 	if((result.msg).length > 0)
 	{
+		console.log(result.msg);
+		$("#response").text(result.msg);
 	 $("#response").show();
 	 $("#message").slideUp();
 	 
